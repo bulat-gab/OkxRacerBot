@@ -55,12 +55,11 @@ class Tapper:
 
                     if not start_command_found:
                         peer = await self.tg_client.resolve_peer('OKX_official_bot')
-                        link = choices([settings.REF_ID, get_link_code()], weights=[40, 60], k=1)[0]
                         await self.tg_client.invoke(
                             functions.messages.StartBot(
                                 bot=peer,
                                 peer=peer,
-                                start_param='linkCode_' + link,
+                                start_param='linkCode_' + settings.REF_ID,
                                 random_id=randint(1, 9999999),
                             )
                         )
@@ -119,7 +118,7 @@ class Tapper:
                 "extUserId": self.user_id,
                 "extUserName": self.first_name + ' ' + self.last_name,
                 "gameId": 1,
-                "linkCode": get_link_code()
+                "linkCode": settings.REF_ID
             }
             response = await http_client.post(f'https://www.okx.com/priapi/v1/affiliate/game/racer/info?'
                                               f't={int(time() * 1000)}', json=json_data)
@@ -351,10 +350,6 @@ class Tapper:
             except Exception as error:
                 logger.error(f"{self.session_name} | Unknown error: {error}")
                 await asyncio.sleep(delay=randint(60, 120))
-
-
-def get_link_code() -> str:
-    return bytes([57, 51, 53, 49, 57, 52, 48, 50]).decode("utf-8")
 
 
 async def run_tapper(tg_client: Client, proxy: str | None):
