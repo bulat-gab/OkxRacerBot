@@ -111,6 +111,5 @@ async def run_tasks(tg_clients: list[Client]):
     tasks = []
     for pair in client_proxy_list:
         tasks.append(asyncio.create_task(run_tapper(tg_client=pair[0], proxy=pair[1].as_url)))
-        await asyncio.sleep(delay=randint(settings.START_DELAY[0], settings.START_DELAY[1]))
 
     await asyncio.gather(*tasks)

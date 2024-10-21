@@ -282,6 +282,10 @@ class Tapper:
             await asyncio.sleep(delay=3)
 
     async def run(self, proxy: str | None) -> None:
+        random_delay = randint(settings.START_DELAY[0], settings.START_DELAY[1])
+        logger.info(f"<light-yellow>{self.session_name}</light-yellow> | Bot will start in <ly>{random_delay}s</ly>")
+        await asyncio.sleep(delay=random_delay)
+
         access_token_created_time = 0
         proxy_conn = ProxyConnector().from_url(proxy) if proxy else None
 
